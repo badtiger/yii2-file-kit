@@ -3,7 +3,7 @@
     "description": "Yii2 file upload and storage kit",
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Alexandr Konradi",
@@ -13,8 +13,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
-        "yiisoft/yii2-jui": "*",
-        "league/flysystem": "*",
+        "yiisoft/yii2-jui": "~2.0.0",
+        "league/flysystem": "^3.0",
         "npm-asset/blueimp-file-upload": "*",
         "rmrevin/yii2-fontawesome": "*"
     },

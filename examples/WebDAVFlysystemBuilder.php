@@ -2,7 +2,7 @@
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\WebDAV\WebDAVAdapter;
-use trntv\filekit\filesystem\FilesystemBuilderInterface;
+use badtiger\filekit\filesystem\FilesystemBuilderInterface;
 
 /**
  * Class WebDAVFlysystemBuilder
