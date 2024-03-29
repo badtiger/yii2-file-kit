@@ -1,12 +1,12 @@
 <?php
 
-namespace trntv\filekit\actions;
+namespace badtiger\filekit\actions;
 
 use yii\web\HttpException;
 
 /**
  * Class ViewAction
- * @package trntv\filekit\actions
+ * @package badtiger\filekit\actions
  * @author Eugene Terentev <eugene@terentev.net>
  */
 class ViewAction extends BaseAction
@@ -30,14 +30,14 @@ class ViewAction extends BaseAction
     {
         $path = \Yii::$app->request->get($this->pathParam);
         $filesystem = $this->getFileStorage()->getFilesystem();
-        if ($filesystem->has($path) === false) {
+        if ($filesystem->fileExists($path) === false) {
             throw new HttpException(404);
         }
         return \Yii::$app->response->sendStreamAsFile(
             $filesystem->readStream($path),
             pathinfo($path, PATHINFO_BASENAME),
             [
-                'mimeType' => $filesystem->getMimetype($path),
+                'mimeType' => $filesystem->mimeType($path),
                 'inline' => $this->inline
             ]
         );

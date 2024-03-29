@@ -1,8 +1,8 @@
 <?php
-namespace trntv\filekit\actions;
+namespace badtiger\filekit\actions;
 
 use League\Flysystem\FilesystemInterface;
-use trntv\filekit\events\UploadEvent;
+use badtiger\filekit\events\UploadEvent;
 use League\Flysystem\File as FlysystemFile;
 use Yii;
 use yii\base\DynamicModel;
@@ -16,7 +16,7 @@ use yii\web\UploadedFile;
 * public function actions(){
 *   return [
 *           'upload'=>[
-*               'class'=>'trntv\filekit\actions\UploadAction',
+*               'class'=>'badtiger\filekit\actions\UploadAction',
 *           ]
 *       ];
 *   }
@@ -94,7 +94,7 @@ class UploadAction extends BaseAction
      * It can be a callable for more flexible
      *
      * ```php
-     * function (\trntv\filekit\File $fileObj) {
+     * function (\badtiger\filekit\File $fileObj) {
      *
      *      return ['ContentDisposition' => 'filename="' . $fileObj->getPathInfo('filename') . '"'];
      * }

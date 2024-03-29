@@ -1,7 +1,7 @@
 <?php
-namespace trntv\filekit\behaviors;
+namespace badtiger\filekit\behaviors;
 
-use trntv\filekit\Storage;
+use badtiger\filekit\Storage;
 use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
@@ -95,7 +95,7 @@ class UploadBehavior extends Behavior
      */
     protected $deletePaths;
     /**
-     * @var \trntv\filekit\Storage
+     * @var \badtiger\filekit\Storage
      */
     protected $storage;
     /**
@@ -319,7 +319,7 @@ class UploadBehavior extends Behavior
     }
 
     /**
-     * @return \trntv\filekit\Storage
+     * @return \badtiger\filekit\Storage
      * @throws \yii\base\InvalidConfigException
      */
     protected function getStorage()
@@ -394,11 +394,11 @@ class UploadBehavior extends Behavior
     protected function enrichFileData($file)
     {
         $fs = $this->getStorage()->getFilesystem();
-        if ($file['path'] && $fs->has($file['path'])) {
+        if ($file['path'] && $fs->fileExists($file['path'])) {
             $data = [
-                'type' => $fs->getMimetype($file['path']),
-                'size' => $fs->getSize($file['path']),
-                'timestamp' => $fs->getTimestamp($file['path'])
+                'type' => $fs->mimeType($file['path']),
+                'size' => $fs->fileSize($file['path']),
+                'timestamp' => $fs->lastModified($file['path'])
             ];
             foreach ($data as $k => $v) {
                 if (!array_key_exists($k, $file) || !$file[$k]) {

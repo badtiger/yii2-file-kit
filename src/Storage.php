@@ -1,17 +1,17 @@
 <?php
-namespace trntv\filekit;
+namespace badtiger\filekit;
 
 use Yii;
 use League\Flysystem\FilesystemInterface;
-use trntv\filekit\events\StorageEvent;
-use trntv\filekit\filesystem\FilesystemBuilderInterface;
+use badtiger\filekit\events\StorageEvent;
+use badtiger\filekit\filesystem\FilesystemBuilderInterface;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 
 /**
  * Class Storage
- * @package trntv\filekit
+ * @package badtiger\filekit
  * @author Eugene Terentev <eugene@terentev.net>
  */
 class Storage extends Component
@@ -55,7 +55,7 @@ class Storage extends Component
      * It can be a callable for more flexible
      *
      * ```php
-     * function (\trntv\filekit\File $fileObj) {
+     * function (\badtiger\filekit\File $fileObj) {
      *
      *      return ['ContentDisposition' => 'filename="' . $fileObj->getPathInfo('filename') . '"'];
      * }
@@ -134,7 +134,7 @@ class Storage extends Component
                     $fileObj->getExtension()
                 ]);
                 $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $dirIndex, $filename]));
-            } while ($this->getFilesystem()->has($path));
+            } while ($this->getFilesystem()->directoryExists($path));
         } else {
             $filename = $fileObj->getPathInfo('filename');
             $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $dirIndex, $filename]));
@@ -154,10 +154,10 @@ class Storage extends Component
             $config = call_user_func($config, $fileObj);
         }
 
-        $config = array_merge(['ContentType' => $fileObj->getMimeType()], $defaultConfig, $config);
+        $config = array_merge(['ContentType' => $fileObj->mimeType()], $defaultConfig, $config);
 
         if ($overwrite) {
-            $success = $this->getFilesystem()->putStream($path, $stream, $config);
+            $success = $this->getFilesystem()->writeStream($path, $stream, $config);
         } else {
             $success = $this->getFilesystem()->writeStream($path, $stream, $config);
         }
@@ -196,7 +196,7 @@ class Storage extends Component
      */
     public function delete($path)
     {
-        if ($this->getFilesystem()->has($path)) {
+        if ($this->getFilesystem()->fileExists($path)) {
             $this->beforeDelete($path, $this->getFilesystem());
             if ($this->getFilesystem()->delete($path)) {
                 $this->afterDelete($path, $this->getFilesystem());
@@ -231,7 +231,7 @@ class Storage extends Component
             $normalizedPath = $path . DIRECTORY_SEPARATOR . '.dirindex';
         }
 
-        if (!$this->getFilesystem()->has($normalizedPath)) {
+        if (!$this->getFilesystem()->directoryExists($normalizedPath)) {
             $this->getFilesystem()->write($normalizedPath, (string)$this->dirindex);
         } else {
             $this->dirindex = $this->getFilesystem()->read($normalizedPath);
@@ -254,7 +254,7 @@ class Storage extends Component
      */
     public function beforeSave($path, $filesystem = null)
     {
-        /* @var \trntv\filekit\events\StorageEvent $event */
+        /* @var \badtiger\filekit\events\StorageEvent $event */
         $event = Yii::createObject([
             'class' => StorageEvent::className(),
             'path' => $path,
@@ -270,7 +270,7 @@ class Storage extends Component
      */
     public function afterSave($path, $filesystem)
     {
-        /* @var \trntv\filekit\events\StorageEvent $event */
+        /* @var \badtiger\filekit\events\StorageEvent $event */
         $event = Yii::createObject([
             'class' => StorageEvent::className(),
             'path' => $path,
@@ -286,7 +286,7 @@ class Storage extends Component
      */
     public function beforeDelete($path, $filesystem)
     {
-        /* @var \trntv\filekit\events\StorageEvent $event */
+        /* @var \badtiger\filekit\events\StorageEvent $event */
         $event = Yii::createObject([
             'class' => StorageEvent::className(),
             'path' => $path,
@@ -302,7 +302,7 @@ class Storage extends Component
      */
     public function afterDelete($path, $filesystem)
     {
-        /* @var \trntv\filekit\events\StorageEvent $event */
+        /* @var \badtiger\filekit\events\StorageEvent $event */
         $event = Yii::createObject([
             'class' => StorageEvent::className(),
             'path' => $path,

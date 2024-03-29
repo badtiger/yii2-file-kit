@@ -3,7 +3,7 @@
  * Author: Eugine Terentev <eugine@terentev.net>
  */
 
-namespace trntv\filekit\widget;
+namespace badtiger\filekit\widget;
 
 use yii\web\AssetBundle;
 
@@ -12,7 +12,7 @@ class UploadAsset extends AssetBundle
 
     public $depends = [
         \yii\web\JqueryAsset::class,
-        \trntv\filekit\widget\BlueimpFileuploadAsset::class,
+        \badtiger\filekit\widget\BlueimpFileuploadAsset::class,
         \rmrevin\yii\fontawesome\NpmFreeAssetBundle::class
     ];
 

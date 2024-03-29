@@ -1,9 +1,9 @@
 <?php
-namespace trntv\filekit\filesystem;
+namespace badtiger\filekit\filesystem;
 
 /**
  * Interface FilesystemBuilderInterface
- * @package trntv\filekit\filesystem
+ * @package badtiger\filekit\filesystem
  */
 interface FilesystemBuilderInterface
 {
